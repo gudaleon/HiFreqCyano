@@ -11,6 +11,8 @@ setMNodeId(cli, mn_nodeid)
 #Working with Texoma Data ####
 library(dplyr)
 library(tidyr)
+library(ggplot2)
+
 oldPcy <- read.csv("Phycocyanin.csv", header=TRUE)
 str(oldPcy)
 #remove irrelevant columns (makes combining easier)
@@ -45,5 +47,8 @@ levels(fullPcy$Sample.Site)
 
 
 brierPcy <- filter(fullPcy, Sample.Site=="L3-BrierCreek")
+xlims <- as.Date(c("2009-01-01", "2015-01-01"))
+ggplot(brierPcy, aes(Date, Blue.greens.ug.l)) + geom_line() +
+  scale_x_date() + xlab("") + ylab("Phycocyanin (µg/L)") +
+  xlim(xlims)
 
-with(brierPcy, plot(Date, Blue.greens.ug.l), xlim=c())
